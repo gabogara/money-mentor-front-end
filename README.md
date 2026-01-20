@@ -19,4 +19,5 @@ If you are developing a production application, we recommend using TypeScript wi
 
 This project was built collaboratively by:
 
-- **Gabriel Restrepo** — [LinkeIn](https://www.linkedin.com/in/gabriel-restrepo-acosta/)
+- **Gabriel Restrepo** — [LinkedIn](https://www.linkedin.com/in/gabriel-restrepo-acosta/)
+- **Sarah Smith** — [LinkedIn](https://www.linkedin.com/in/sarahsmithdeveloper/)
