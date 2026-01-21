@@ -14,11 +14,11 @@ import TransactionList from './components/Transactions/TransactionList.jsx';
 const App = () => {
     const { user } = useContext(UserContext)
     const [categories, setCategories] =useState([]);
-    console.log(categories)
+    // console.log(categories)
     useEffect(() => {
     const fetchAllCategories = async () => {
       const categoriesData = await categoryService.index();
-      console.log("categories:", categoriesData);
+    //   console.log("categories:", categoriesData);
       setCategories(categoriesData);
     };
     if (user) fetchAllCategories();
