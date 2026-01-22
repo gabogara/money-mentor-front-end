@@ -1,0 +1,121 @@
+import { useParams } from "react-router";
+import { useEffect, useState } from "react";
+import * as transactionService from "../../services/transactionService";
+
+const TransactionForm = () => {
+  const { transactionId } = useParams();
+
+  const [formData, setFormData] = useState({
+    amount: "",
+    description: "",
+    date: "",
+    type: "Expense",
+    categoryId: "",
+    note: "",
+  });
+
+  useEffect(() => {
+    const fetchTransaction = async () => {
+      const transactionData = await transactionService.show(transactionId);
+
+      // Prefill form data from the transaction returned by the API
+      setFormData({
+        amount: transactionData.amount ?? "",
+        description: transactionData.description ?? "",
+        // Convert ISO date to YYYY-MM-DD for <input type="date" />
+        date: transactionData.date ? transactionData.date.slice(0, 10) : "",
+        type: transactionData.type ?? "Expense",
+        // categoryId might come populated (object) or as a string id
+        categoryId:
+          typeof transactionData.categoryId === "object"
+            ? transactionData.categoryId._id
+            : transactionData.categoryId ?? "",
+        note: transactionData.note ?? "",
+      });
+    };
+
+    if (transactionId) fetchTransaction();
+
+    // Cleanup/reset (same idea as the lab)
+    return () =>
+      setFormData({
+        amount: "",
+        description: "",
+        date: "",
+        type: "Expense",
+        categoryId: "",
+        note: "",
+      });
+  }, [transactionId]);
+
+  const handleChange = (evt) => {
+    setFormData({ ...formData, [evt.target.name]: evt.target.value });
+  };
+
+  return (
+    <main>
+      <h1>{transactionId ? "Edit Transaction" : "New Transaction"}</h1>
+
+      <form>
+        <label htmlFor="amount-input">Amount</label>
+        <input
+          id="amount-input"
+          name="amount"
+          type="number"
+          value={formData.amount}
+          onChange={handleChange}
+        />
+
+        <label htmlFor="description-input">Description</label>
+        <input
+          id="description-input"
+          name="description"
+          type="text"
+          value={formData.description}
+          onChange={handleChange}
+        />
+
+        <label htmlFor="date-input">Date</label>
+        <input
+          id="date-input"
+          name="date"
+          type="date"
+          value={formData.date}
+          onChange={handleChange}
+        />
+
+        <label htmlFor="type-input">Type</label>
+        <select
+          id="type-input"
+          name="type"
+          value={formData.type}
+          onChange={handleChange}
+        >
+          <option value="Income">Income</option>
+          <option value="Expense">Expense</option>
+        </select>
+
+        <label htmlFor="categoryId-input">Category</label>
+        <input
+          id="categoryId-input"
+          name="categoryId"
+          type="text"
+          value={formData.categoryId}
+          onChange={handleChange}
+          placeholder="Category id for now..."
+        />
+
+        <label htmlFor="note-input">Note</label>
+        <input
+          id="note-input"
+          name="note"
+          type="text"
+          value={formData.note}
+          onChange={handleChange}
+        />
+      </form>
+    </main>
+  );
+};
+
+export default TransactionForm;
