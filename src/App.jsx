@@ -53,6 +53,19 @@ const App = () => {
     navigate(`/transactions/${transactionId}`);
   };
 
+  const handleDeleteTransaction = async (transactionId) => {
+    const deletedTransaction = await transactionService.deleteTransaction(
+      transactionId
+    );
+
+    // Remove deleted transaction from state
+    setTransactions((prev) =>
+      prev.filter((t) => t._id !== deletedTransaction._id)
+    );
+
+    navigate("/transactions");
+  };
+
   useEffect(() => {
     const fetchAllCategories = async () => {
       const categoriesData = await categoryService.index();
@@ -95,7 +108,12 @@ const App = () => {
             <Route path="/summary" element={<MonthlySummary />} />
             <Route
               path="/transactions/:transactionId"
-              element={<TransactionDetails categories={categories} />}
+              element={
+                <TransactionDetails
+                  categories={categories}
+                  handleDeleteTransaction={handleDeleteTransaction}
+                />
+              }
             />
             <Route
               path="/transactions/new"
