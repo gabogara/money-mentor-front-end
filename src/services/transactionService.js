@@ -91,4 +91,27 @@ const update = async (transactionId, transactionFormData) => {
   }
 };
 
-export { index, create, getRecent, getMonthlySummary, show, update };
+// DELETE /transactions/:id - delete one transaction
+const deleteTransaction = async (transactionId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${transactionId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export {
+  index,
+  create,
+  getRecent,
+  getMonthlySummary,
+  show,
+  update,
+  deleteTransaction,
+};
