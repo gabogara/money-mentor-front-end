@@ -81,8 +81,8 @@ const Dashboard = () => {
                 <h2>Here are your recent money moves.</h2>
                 <ul className='transactions-list'>
                     {recentMoves.map((transaction) => {
-                        const isIncome = allTransactions.categoryId?.type === 'Income';
-                        const symbol = isIncome ? '+' : '-';
+                        const isIncomeItem = transaction.categoryId?.type === 'Income';
+                        const symbol = isIncomeItem ? '+' : '-';
 
                         return (
                         <Link to={`/transactions/${transaction._id}`} key={transaction._id} className="transaction-link">
