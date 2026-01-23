@@ -88,7 +88,9 @@ const Dashboard = () => {
                         <Link to={`/transactions/${transaction._id}`} key={transaction._id} className="transaction-link">
                         <li key={transaction._id}>
                             {transaction.description}: {' '}
-                            {symbol}{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(transaction.amount)} 
+                            <div className={`transaction-amount ${isIncomeItem ? 'amount-income' : 'amount-expense'}`}>
+                                {symbol}{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(transaction.amount)}
+                            </div>
                         </li>
                         </Link>
                     );
