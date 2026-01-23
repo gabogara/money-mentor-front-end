@@ -10,7 +10,9 @@ const MonthlySummary = () => {
     const [allTransactions, setAllTransactions] = useState([]);
     // filter for all, income or expense
     const [filter, setFilter] = useState('all');
+    // handle data loading delay
     const [loading, setLoading] = useState(true);
+    // handle html loading & the container re: the chart rendering
     const [containerWidth, setContainerWidth] = useState(0);
 
     // fetch data
@@ -62,12 +64,14 @@ const MonthlySummary = () => {
     const incomeTotal = allTransactions.filter(transaction => transaction.categoryId?.type === 'Income').reduce((acc, transaction) => acc + transaction.amount, 0);
     const expenseTotal = allTransactions.filter(transaction => transaction.categoryId?.type === 'Expense').reduce((acc, transaction) => acc + transaction.amount, 0);
     const total = filteredTransactions.reduce((acc, transaction) => acc + transaction.amount, 0);
+    const netSavings = incomeTotal - expenseTotal;
 
     const chartData = [
         { name: 'Income', amount: incomeTotal, fill: '#4CAF50' },
         { name: 'Expenses', amount: expenseTotal, fill: '#F44336' }
     ];
     
+    // chart data calculations
     const typeTotals = filteredTransactions.reduce((acc, transaction) => {
         const typeName = transaction.categoryId?.name || 'Uncategorized';
         acc[typeName] = (acc[typeName] || 0) + transaction.amount;
@@ -82,7 +86,7 @@ const MonthlySummary = () => {
 
     return (
         <>
-            <main>
+            <main className="main-content-container">
                 <h1>Monthly Summary</h1>
                 <section className="filter-transactions">
                     <div className="filter-btns">
@@ -93,22 +97,31 @@ const MonthlySummary = () => {
                 
                 <h3>Total: ${total.toFixed(2)}</h3>
 
-                <ul>
+                <ul className="transactions-list">
                     {filteredTransactions.map(transaction => {
                         const isIncome = transaction.categoryId?.type === 'Income';
-                        const symbol = isIncome ? '+' : '-';
 
                         return (
-                      <li key={transaction._id}>
-                        {/* date */}
-                        {new Date(transaction.date).toLocaleDateString()} |
-                        {/* description & type */}
-                        {" "}{transaction.description} ({transaction.categoryId?.type}) |
-                        {/* category name */}
-                        {" "}{transaction.categoryId?.name}
-                        {/* amount */} 
-                        {" "}{symbol}${transaction.amount}
-                      </li>  
+                      <li key={transaction._id} className="transaction-card">
+                        <div className="transaction-info">
+                            <div className="transaction-icon">
+                                {isIncome ? '💰' : '💸'}
+                            </div>
+                        </div>
+                        <div className="transaction-details">
+                            {/* description */}
+                            <div className="transaction-desc">{transaction.description}</div>
+                            {/* date & category */}
+                            <div className="transaction-meta"> 
+                                {new Date(transaction.date).toLocaleDateString()} | 
+                                {transaction.categoryId?.name}
+                            </div>
+                        </div>
+                        {/* amount */}
+                        <div className={`transaction-amount ${isIncome} ? 'amount-income' : 'amount-expense'}`}>
+                            {isIncome ? '+' : '-'}${transaction.amount.toFixed(2)}
+                        </div>
+                      </li> 
                     );
                 })}
                 </ul>
