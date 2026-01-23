@@ -27,13 +27,10 @@ const ReviewTicker = () => {
 
 const Landing = () => {
   return (
-    <div className="auth-page">
-      <header className="auth-header">
-        <div className="brand">Money Mentor</div>
-      </header>
-
+    <div className="landing-page-wrapper">
       <main className="landing-container">
         <section className="landing-left">
+          <img src="src/assets/Money Mentor landing.svg" alt="Money Mentor" className="money-mentor-img"/>
           <div className="landing-app-details">
             <h1>Track your money. <br />  Build better habits.</h1>
             <h2>A simple way to track income, expenses, and savings while earning points and motivation.</h2>
