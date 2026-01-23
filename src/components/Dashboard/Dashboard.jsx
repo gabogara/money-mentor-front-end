@@ -23,10 +23,21 @@ const Dashboard = () => {
     }, [user])
 
     return (
-        <main>
+        <main className='main-content-container'>
             <>
             <h1>Welcome, {user.username}!</h1>
-            <section>
+            {/* monthly stats at a glance */}
+            <section className='monthly-stats-section'>
+                <div className='stats-header'>
+                    <select className='month-dropdown'>
+                        <option value="month">January 2026</option>
+                        <option value="month">December 2025</option>
+                    </select>
+                </div>
+
+            </section>
+            {/* recent activity */}
+            <section className='recent-activity-section'>
                 <h2>Here are your recent money moves.</h2>
                 <ul>
                     {recentTransactions.map((transaction) => {
