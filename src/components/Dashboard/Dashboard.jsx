@@ -83,6 +83,10 @@ const monthlyData = allTransactions.filter((transactions) =>
                     </select>
                 </div>
                 <div className='stats-grid'>
+                    <div className="stat-item">
+                        <span className="label">Points</span>
+                        <span className="value points">{user.points}</span>
+                    </div>
                     <div className='stat-item'>
                         <span className='label'>Income</span>
                         <span className='value income'>${income.toFixed(2)}</span>
