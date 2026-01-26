@@ -1,6 +1,7 @@
 // App.jsx
 import { useContext, useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router";
+import { useLocation } from 'react-router-dom';
 
 import NavBar from "./components/NavBar/Navbar.jsx";
 import SignUpForm from "./components/SignUpForm/SignUpForm.jsx";
@@ -8,6 +9,7 @@ import SignInForm from "./components/SignInForm/SignInForm.jsx";
 import Landing from "./components/Landing/Landing.jsx";
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import Mentor from "./components/Mentor/Mentor.jsx";
+import Footer from "./components/Footer/Footer.jsx";
 
 import TransactionList from "./components/Transactions/TransactionList.jsx";
 import TransactionDetails from "./components/Transactions/TransactionDetails.jsx";
@@ -29,6 +31,10 @@ const App = () => {
   const [transactions, setTransactions] = useState([]);
   const [mentors, setMentors] = useState([]);
 
+  // set footer display rules
+  const location = useLocation();
+  const hideFooterPath = ['/sign-in', '/sign-up'];
+  const showFooter = !hideFooterPath.includes(location.pathname);
 
   const handleAddTransaction = async (transactionFormData) => {
     const newTransaction = await transactionService.create(transactionFormData);
@@ -154,7 +160,8 @@ const App = () => {
           </>
         )}
       </Routes>
-    </>
+      {showFooter && <Footer />}
+    </>     
   );
 };
 

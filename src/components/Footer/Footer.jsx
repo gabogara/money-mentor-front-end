@@ -1,0 +1,25 @@
+const Footer = () => {
+    const currentYear = new Date().getFullYear();
+
+    return (
+        <footer className='footer'>
+            <div className='footer-content'>
+                <div className='footer-section'>
+                    <h4>Money Mentor</h4>
+                    <p>Smart tracking for smarter savings.</p>
+                </div>
+                <div className='footer-links'>
+                    <a href="/about">About</a>
+                    <a href="/privacy">Privacy</a>
+                    <a href="/contact">Support</a>
+                </div>
+                <div className='footer-bottom'>
+                    <p>&copy {currentYear} Money Mentor. All rights reserved.</p>
+                    <p>Made with 💚 by Gabriel, Angelika & Sarah.</p>
+                </div>
+            </div>
+        </footer>
+    );
+};
+
+export default Footer;
