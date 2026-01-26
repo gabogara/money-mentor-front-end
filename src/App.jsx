@@ -73,6 +73,7 @@ const App = () => {
 
     navigate("/transactions");
   };
+  console.log(mentors)
 
   useEffect(() => {
     const fetchAllCategories = async () => {
@@ -89,7 +90,6 @@ const App = () => {
       const mentorsData = await mentorService.getMentorResponse();
       setMentors(mentorsData)
     };
-
     if (user) {
       fetchAllCategories();
       fetchAllTransactions();
