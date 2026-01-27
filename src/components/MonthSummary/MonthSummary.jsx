@@ -1,3 +1,4 @@
+import { Container, Row, Col, Card, Button, Stack, ButtonGroup } from 'react-bootstrap';
 import './MonthlySummary.css';
 import { useState, useEffect, useContext} from "react";
 import { UserContext } from "../../contexts/UserContext";
@@ -93,46 +94,63 @@ const MonthlySummary = () => {
 
     return (
         <>
-            <main className="month-content-container">
-                <h1>{user.username}'s Monthly Summary</h1>
-                <section className="monthly-filter-transactions">
-                    <div className="filter-btns">
-                        <button type='button' onClick={() => setFilter('all')}>All Transactions</button>
-                        <button type='button' onClick={() => setFilter('Income')}>Income</button>
-                        <button type='button' onClick={() => setFilter('Expense')}>Expenses</button>
-                    </div>
+            <Container className="month-content-container py-5">
+                <Row className='mb-4'>
+                    <Col>
+                        <h1 className="display-5 fw-bold text-center">{user.username}'s Monthly Summary</h1>
+                    </Col>
+                </Row>
                 
-                <h3 className='month-total'>Total: ${total.toFixed(2)}</h3>
+                <Card className="monthly-filter-transactions shadow-sm border-0 mb-4">
+                    <Card.Body className="filter-btns p-4">
+                        <Stack>
+                            <ButtonGroup>
+                                <button type='button' onClick={() => setFilter('all')}>All Transactions</button>
+                                <button type='button' onClick={() => setFilter('Income')}>Income</button>
+                                <button type='button' onClick={() => setFilter('Expense')}>Expenses</button>
+                            </ButtonGroup>  
+                        </Stack>
+                        <h3 className='month-total text-center mb-0 bw-bold'>Total: ${total.toFixed(2)}</h3>
+                    </Card.Body>
+                </Card>
 
-                <ul className="transactions-list">
-                    {filteredTransactions.map(transaction => {
-                        const isIncome = transaction.categoryId?.type === 'Income';
+                <Row className="transactions-list g-4">
+                    <Col lg={8}>
+                    <Card className='shadow-sm border-0 h-100'>
+                        <Card.Header className='bg-white fw-bold'>Recent Transactions</Card.Header>
+                        <Card.Body className='p-0'>
+                            <ul className='list-group list-group-flush'>
+                                {filteredTransactions.map(transaction => {
+                                    const isIncome = transaction.categoryId?.type === 'Income';
 
-                        return (
-                      <li key={transaction._id} className="transaction-card">
-                        <div className="transaction-info">
-                            <div className="transaction-icon">
-                                {isIncome ? '💰' : '💸'}
-                            </div>
-                        </div>
-                        <div className="transaction-details">
-                            {/* description */}
-                            <div className="transaction-desc">{transaction.description}</div>
-                            {/* date & category */}
-                            <div className="transaction-meta"> 
-                                {new Date(transaction.date).toLocaleDateString()} | {''}
-                                {transaction.categoryId?.name}
-                            </div>
-                        </div>
-                        {/* amount */}
-                        <div className={`transaction-amount ${isIncome ? 'amount-income' : 'amount-expense'}`}>
-                            {isIncome ? '+' : '-'}${transaction.amount.toFixed(2)}
-                        </div>
-                      </li> 
-                    );
-                })}
-                </ul>
-                </section>
+                                    return (
+                                    <li key={transaction._id} className="transaction-card list-group-item d-flex justify-content-between align-items-center py-3">
+                                        <div className="transaction-info d-flex align-items-center">
+                                            <div className="transaction-icon fs-3 me-3">
+                                                {isIncome ? '💰' : '💸'}
+                                            </div>
+                                        </div>
+                                        <div className="transaction-details">
+                                        {/* description */}
+                                        <div className="transaction-desc fw-bold">{transaction.description}</div>
+                                        {/* date & category */}
+                                        <div className="transaction-meta"> 
+                                            {new Date(transaction.date).toLocaleDateString()} | {''}
+                                            {transaction.categoryId?.name}
+                                        </div>
+                                        </div>
+                                        {/* amount */}
+                                        <div className={`fw-bold transaction-amount ${isIncome ? 'amount-income' : 'amount-expense'}`}>
+                                            {isIncome ? '+' : '-'}${transaction.amount.toFixed(2)}
+                                        </div>
+                                    </li> 
+                                );
+                            })}
+                        </ul>
+                    </Card.Body>
+                </Card>
+                </Col>
+                
                 {/* chart section */}
                 <section className="transactions-chart">
                     <h2>{filter === 'all' ? 'Income vs Expenses' : `${filter} Breakdown`}</h2>
@@ -161,7 +179,8 @@ const MonthlySummary = () => {
                         <button className='back-btn' type='button'>Return to Dashboard</button>
                     </Link>
                 </div>
-            </main>
+                </Row>
+            </Container>
         </>
     );
 };
