@@ -45,7 +45,6 @@ const Mentor = ({ mentors }) => {
             '#FFD700' }}>
           </i>
         </h3>
-        {/* TODO: conditionally render badges based on level stauts */} 
           <p className="mentor-points">Points earned: {user.points}</p>
           <p className="mentor-next-level">
             {pointsToNextLevel() !== null 
